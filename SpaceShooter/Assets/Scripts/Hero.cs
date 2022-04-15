@@ -20,7 +20,7 @@ public class Hero : MonoBehaviour
 
     #region PlayerShip Singleton
     static public Hero SHIP; //refence GameManager
-   
+
     //Check to make sure only one gm of the GameManager is in the scene
     void CheckSHIPIsInScene()
     {
@@ -38,7 +38,7 @@ public class Hero : MonoBehaviour
     #endregion
 
     GameManager gm; //reference to game manager
-    ObjectPool pool; //referebce to ObjectPool
+    ObjectPool pool; //reference to ObjectPool
 
     [Header("Ship Movement")]
     public float speed = 10;
@@ -49,8 +49,12 @@ public class Hero : MonoBehaviour
 
     [Space(10)]
     [Header("Projectile Settings")]
-    // public GameObject projectilePrefab; // the game object of the projectile
-    public float projectileSpeed; // speed of the projectile
+    //public GameObject projectilePrefab; // the game object of the projectile
+    public float projectileSpeed = 40; // speed of the projectile
+    public AudioClip projectSound;
+    private AudioSource audioSource;
+
+    [Space(10)]
 
     private GameObject lastTriggerGo; //reference to the last triggering game object
    
@@ -92,6 +96,7 @@ public class Hero : MonoBehaviour
     {
         gm = GameManager.GM; //find the game manager
         pool = ObjectPool.POOL; //find the object pool
+        audioSource = GetComponent<AudioSource>();
     }//end Start()
 
 
@@ -117,6 +122,11 @@ public class Hero : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             FireProjectile();
+
+            if(audioSource != null)
+            {
+                audioSource.PlayOneShot(projectSound);
+            }
         }
 
     }//end Update()
